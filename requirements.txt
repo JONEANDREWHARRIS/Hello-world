@@ -1,0 +1,15 @@
+# AudioToText Dependencies
+# Based on https://github.com/Carleslc/AudioToText
+
+# Core dependencies
+openai-whisper>=20231117
+torch>=2.0.0
+
+# Audio processing
+ffmpeg-python>=0.2.0
+
+# Optional: For DeepL translation support
+deepl>=1.16.0
+
+# Optional: For OpenAI API support
+openai>=1.0.0
