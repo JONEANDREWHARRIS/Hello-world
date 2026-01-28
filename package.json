@@ -6,6 +6,8 @@
   "scripts": {
     "start": "remotion studio",
     "build": "remotion render AudioVisualization out/video.mp4",
+    "build:reel": "remotion render Reel out/reel-vertical.mp4",
+    "build:reel-horizontal": "remotion render ReelHorizontal out/reel-horizontal.mp4",
     "preview": "remotion preview"
   },
   "repository": {
