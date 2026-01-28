@@ -9,7 +9,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Reel"
         component={Reel}
-        durationInFrames={30 * 30} // 30 seconds at 30fps
+        durationInFrames={60 * 30} // 60 seconds at 30fps
         fps={30}
         width={1080}
         height={1920} // Vertical for social media reels
@@ -24,7 +24,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ReelHorizontal"
         component={Reel}
-        durationInFrames={30 * 30}
+        durationInFrames={60 * 30} // 60 seconds at 30fps
         fps={30}
         width={1920}
         height={1080}
@@ -39,7 +39,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AudioVisualization"
         component={AudioVisualization}
-        durationInFrames={30 * 30}
+        durationInFrames={60 * 30} // 60 seconds at 30fps
         fps={30}
         width={1920}
         height={1080}
