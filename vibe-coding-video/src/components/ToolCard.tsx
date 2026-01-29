@@ -38,6 +38,10 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   // Key point fades + blurs in
   const keyPointFade = fadeBlur({ frame, fps, delay: 38 });
 
+  // Quote fades in after key point
+  const quoteFade = fadeBlur({ frame, fps, delay: 55 });
+  const quoteSpring = springIn({ frame, fps, delay: 55 });
+
   // Icon placeholder scales up
   const iconScale = scaleUp({ frame, fps, delay: 15 });
   const iconOpacity = springIn({ frame, fps, delay: 15 });
@@ -205,6 +209,29 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             }}
           >
             {tool.keyPoint}
+          </span>
+        </div>
+
+        {/* Author quote */}
+        <div
+          style={{
+            opacity: quoteFade.opacity * quoteSpring,
+            filter: `blur(${quoteFade.blur}px)`,
+            marginTop: 4,
+          }}
+        >
+          <span
+            style={{
+              fontSize: 22,
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: `${tool.color}cc`,
+              fontFamily:
+                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              letterSpacing: 0.5,
+            }}
+          >
+            {tool.quote}
           </span>
         </div>
 

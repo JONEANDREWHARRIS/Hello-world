@@ -63,7 +63,7 @@ export const Intro: React.FC = () => {
             "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
         }}
       >
-        2025 RANKINGS
+        RANKED BY AN 8-YEAR iOS ENGINEER
       </div>
 
       {/* Main title with staggered text */}
