@@ -4,31 +4,48 @@ import { springIn, fadeBlur, slideFromLeft } from "../utils/animations";
 import { COLORS, TOOLS } from "../utils/constants";
 
 /**
- * Outro section (26-30 seconds / frames 0-120 within sequence)
- * Shows all 5 tools as small cards, CTA text, fade to black
+ * Outro section (52-60 seconds / frames 0-240 within sequence)
+ * Full recap with all 5 tools, ranking bars, CTA, and fade to black.
  */
 export const Outro: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
+  // "THE FULL RANKING" header
+  const headerFade = fadeBlur({ frame, fps, delay: 3 });
+  const headerSpring = springIn({ frame, fps, delay: 3 });
+
   // Mini cards stagger in
   const cardStagger = (index: number) => {
-    const delay = 5 + index * 5;
+    const delay = 12 + index * 7;
     const progress = springIn({ frame, fps, delay });
-    const x = slideFromLeft({ frame, fps, delay: delay, distance: 100 });
+    const x = slideFromLeft({ frame, fps, delay, distance: 100 });
     return { opacity: progress, x };
   };
 
+  // Mini rating bars per card
+  const miniBarProgress = (index: number) => {
+    const delay = 18 + index * 7;
+    return springIn({ frame, fps, delay });
+  };
+
   // Main text animations
-  const mainTextFade = fadeBlur({ frame, fps, delay: 30 });
-  const mainTextSpring = springIn({ frame, fps, delay: 30 });
+  const mainTextFade = fadeBlur({ frame, fps, delay: 65 });
+  const mainTextSpring = springIn({ frame, fps, delay: 65 });
 
   // CTA text
-  const ctaFade = fadeBlur({ frame, fps, delay: 50 });
-  const ctaSpring = springIn({ frame, fps, delay: 50 });
+  const ctaFade = fadeBlur({ frame, fps, delay: 90 });
+  const ctaSpring = springIn({ frame, fps, delay: 90 });
+
+  // Workflow tip
+  const tipFade = fadeBlur({ frame, fps, delay: 115 });
+  const tipSpring = springIn({ frame, fps, delay: 115 });
+
+  // Source
+  const sourceFade = fadeBlur({ frame, fps, delay: 140 });
 
   // Final fade to black
-  const blackOverlay = interpolate(frame, [95, 120], [0, 1], {
+  const blackOverlay = interpolate(frame, [210, 240], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
@@ -47,16 +64,34 @@ export const Outro: React.FC = () => {
         justifyContent: "center",
       }}
     >
+      {/* Header */}
+      <div
+        style={{
+          opacity: headerFade.opacity * headerSpring,
+          filter: `blur(${headerFade.blur}px)`,
+          fontSize: 18,
+          fontWeight: 700,
+          color: COLORS.textMuted,
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          letterSpacing: 6,
+          textTransform: "uppercase",
+          marginBottom: 30,
+        }}
+      >
+        THE FULL RANKING
+      </div>
+
       {/* Mini tool cards row */}
       <div
         style={{
           display: "flex",
-          gap: 24,
-          marginBottom: 60,
+          gap: 20,
+          marginBottom: 50,
         }}
       >
         {TOOLS.map((tool, index) => {
           const { opacity, x } = cardStagger(index);
+          const barFill = miniBarProgress(index);
           return (
             <div
               key={tool.name}
@@ -66,12 +101,12 @@ export const Outro: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 10,
-                padding: "20px 28px",
+                gap: 8,
+                padding: "18px 24px",
                 borderRadius: 16,
                 border: `1px solid ${tool.color}30`,
                 background: `linear-gradient(135deg, ${tool.color}08, ${tool.color}03)`,
-                minWidth: 160,
+                minWidth: 170,
               }}
             >
               {/* Rank circle */}
@@ -88,8 +123,7 @@ export const Outro: React.FC = () => {
                   fontSize: 22,
                   fontWeight: 900,
                   color: tool.color,
-                  fontFamily:
-                    "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                 }}
               >
                 {tool.rank}
@@ -97,24 +131,53 @@ export const Outro: React.FC = () => {
               {/* Tool name */}
               <span
                 style={{
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: 700,
                   color: COLORS.textPrimary,
-                  fontFamily:
-                    "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                   letterSpacing: 2,
                 }}
               >
                 {tool.name}
               </span>
+              {/* Mini rating bar */}
+              <div
+                style={{
+                  width: 120,
+                  height: 4,
+                  borderRadius: 2,
+                  backgroundColor: `${COLORS.textMuted}20`,
+                  overflow: "hidden",
+                }}
+              >
+                <div
+                  style={{
+                    width: `${barFill * (tool.rating / 10) * 100}%`,
+                    height: "100%",
+                    borderRadius: 2,
+                    backgroundColor: tool.color,
+                    boxShadow: `0 0 8px ${tool.color}60`,
+                  }}
+                />
+              </div>
+              {/* Score */}
+              <span
+                style={{
+                  fontSize: 14,
+                  fontWeight: 800,
+                  color: tool.color,
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                }}
+              >
+                {tool.rating}/10
+              </span>
               {/* Tagline */}
               <span
                 style={{
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: 500,
-                  color: tool.color,
-                  fontFamily:
-                    "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                  color: `${tool.color}99`,
+                  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
                   letterSpacing: 1,
                   textTransform: "uppercase",
                 }}
@@ -134,10 +197,9 @@ export const Outro: React.FC = () => {
           fontSize: 48,
           fontWeight: 800,
           color: COLORS.textPrimary,
-          fontFamily:
-            "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
           letterSpacing: 2,
-          marginBottom: 20,
+          marginBottom: 16,
         }}
       >
         Start with{" "}
@@ -153,33 +215,74 @@ export const Outro: React.FC = () => {
           fontSize: 30,
           fontWeight: 400,
           color: COLORS.textSecondary,
-          fontFamily:
-            "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
           letterSpacing: 1,
+          marginBottom: 16,
         }}
       >
         Ship your first app this week
+      </div>
+
+      {/* Workflow tip */}
+      <div
+        style={{
+          opacity: tipFade.opacity * tipSpring,
+          filter: `blur(${tipFade.blur}px)`,
+          fontSize: 18,
+          fontWeight: 400,
+          fontStyle: "italic",
+          color: COLORS.textMuted,
+          fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+          letterSpacing: 0.5,
+        }}
+      >
+        Pro tip: Prototype in Vibecode or Rork \u2192 Polish in Cursor
       </div>
 
       {/* Source attribution */}
       <div
         style={{
           position: "absolute",
-          bottom: 60,
-          opacity: interpolate(frame, [60, 80], [0, 0.5], {
-            extrapolateLeft: "clamp",
-            extrapolateRight: "clamp",
-          }),
-          fontSize: 16,
-          fontWeight: 500,
-          color: COLORS.textMuted,
-          fontFamily:
-            "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-          letterSpacing: 3,
-          textTransform: "uppercase",
+          bottom: 50,
+          opacity: sourceFade.opacity * 0.5,
+          filter: `blur(${sourceFade.blur}px)`,
+          display: "flex",
+          gap: 20,
+          alignItems: "center",
         }}
       >
-        Source: r/SideProject
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            color: COLORS.textMuted,
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+            letterSpacing: 3,
+            textTransform: "uppercase",
+          }}
+        >
+          Source: r/SideProject
+        </span>
+        <div
+          style={{
+            width: 4,
+            height: 4,
+            borderRadius: 2,
+            backgroundColor: COLORS.textMuted,
+          }}
+        />
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 500,
+            color: COLORS.textMuted,
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+            letterSpacing: 3,
+            textTransform: "uppercase",
+          }}
+        >
+          Ranked by an 8-year iOS engineer
+        </span>
       </div>
 
       {/* Fade to black overlay */}

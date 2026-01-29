@@ -9,11 +9,11 @@ export const Background: React.FC = () => {
   const frame = useCurrentFrame();
   const { width, height } = useVideoConfig();
 
-  // Slow-moving gradient positions
-  const gradX1 = interpolate(frame, [0, 900], [20, 80]);
-  const gradY1 = interpolate(frame, [0, 900], [20, 60]);
-  const gradX2 = interpolate(frame, [0, 900], [80, 30]);
-  const gradY2 = interpolate(frame, [0, 900], [70, 40]);
+  // Slow-moving gradient positions (extended for 1800 frames)
+  const gradX1 = interpolate(frame, [0, 1800], [20, 80]);
+  const gradY1 = interpolate(frame, [0, 1800], [20, 60]);
+  const gradX2 = interpolate(frame, [0, 1800], [80, 30]);
+  const gradY2 = interpolate(frame, [0, 1800], [70, 40]);
 
   return (
     <div

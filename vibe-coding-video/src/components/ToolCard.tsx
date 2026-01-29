@@ -8,61 +8,81 @@ import {
   scaleUp,
 } from "../utils/animations";
 import { StaggeredText } from "./StaggeredText";
-import { COLORS, ToolData } from "../utils/constants";
+import { RatingBar } from "./RatingBar";
+import { COLORS, ToolData, TOOL_SECTION_FRAMES } from "../utils/constants";
 
 interface ToolCardProps {
   tool: ToolData;
 }
 
 /**
- * Reusable tool ranking card component
- * Each tool gets ~132 frames (4.4 seconds)
- * Layout: rank number left, tool info right
+ * Expanded tool ranking card — 9 seconds (270 frames).
+ *
+ * Layout (two-column):
+ *   Left: rank number + accent bar
+ *   Right: name, tagline, 3 pros, rating bar, quote, verdict
+ *
+ * Animation timeline (frame offsets within this section):
+ *   0-5   : Accent bar + rank slide in
+ *   8-18  : Tool name staggers in
+ *   20-28 : Tagline slides from right
+ *   35-75 : 3 pros stagger in (one every ~12 frames)
+ *   80-110: Rating bar fills
+ *   115-140: Quote fades in
+ *   145-165: Verdict slides in
+ *   245-270: Exit fade
  */
 export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
   // --- Entrance animations ---
-  // Rank number slides from left
   const rankX = slideFromLeft({ frame, fps, delay: 3, distance: 300 });
   const rankOpacity = springIn({ frame, fps, delay: 3 });
 
-  // Tool name staggered in (handled by StaggeredText)
   const nameDelay = 10;
 
-  // Tagline slides from right
   const taglineX = slideFromRight({ frame, fps, delay: 22, distance: 200 });
   const taglineOpacity = springIn({ frame, fps, delay: 22 });
 
-  // Key point fades + blurs in
-  const keyPointFade = fadeBlur({ frame, fps, delay: 38 });
+  // Pros stagger in one by one
+  const prosAnimations = tool.pros.map((_, i) => {
+    const delay = 40 + i * 14;
+    return {
+      opacity: springIn({ frame, fps, delay }),
+      x: slideFromLeft({ frame, fps, delay, distance: 80 }),
+    };
+  });
 
-  // Quote fades in after key point
-  const quoteFade = fadeBlur({ frame, fps, delay: 55 });
-  const quoteSpring = springIn({ frame, fps, delay: 55 });
+  // Rating bar
+  const ratingDelay = 90;
 
-  // Icon placeholder scales up
-  const iconScale = scaleUp({ frame, fps, delay: 15 });
-  const iconOpacity = springIn({ frame, fps, delay: 15 });
+  // Quote
+  const quoteFade = fadeBlur({ frame, fps, delay: 125 });
+  const quoteSpring = springIn({ frame, fps, delay: 125 });
+
+  // Verdict
+  const verdictFade = fadeBlur({ frame, fps, delay: 155 });
+  const verdictX = slideFromRight({ frame, fps, delay: 155, distance: 100 });
+  const verdictOpacity = springIn({ frame, fps, delay: 155 });
 
   // Accent bar grows
   const barHeight = interpolate(
     springIn({ frame, fps, delay: 5 }),
     [0, 1],
-    [0, 180]
+    [0, 320]
   );
 
-  // --- Exit animation (last 15 frames) ---
-  const sectionDuration = 132;
+  // Decorative background glow
+  const glowOpacity = springIn({ frame, fps, delay: 10 });
+  const glowPulse = Math.sin(frame * 0.06) * 0.02 + 0.08;
+
+  // --- Exit animation (last 25 frames) ---
   const exitOpacity = interpolate(
     frame,
-    [sectionDuration - 18, sectionDuration],
+    [TOOL_SECTION_FRAMES - 25, TOOL_SECTION_FRAMES],
     [1, 0],
-    {
-      extrapolateLeft: "clamp",
-      extrapolateRight: "clamp",
-    }
+    { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
   );
 
   return (
@@ -79,12 +99,25 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         opacity: exitOpacity,
       }}
     >
+      {/* Background glow for the tool's accent color */}
+      <div
+        style={{
+          position: "absolute",
+          width: 900,
+          height: 900,
+          borderRadius: "50%",
+          background: `radial-gradient(circle, ${tool.color}${Math.round(glowPulse * 255).toString(16).padStart(2, "0")} 0%, transparent 60%)`,
+          opacity: glowOpacity,
+          pointerEvents: "none",
+        }}
+      />
+
       {/* Left side: Rank number */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          marginRight: 80,
+          marginRight: 70,
           transform: `translateX(${rankX}px)`,
           opacity: rankOpacity,
         }}
@@ -96,25 +129,19 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
             height: barHeight,
             backgroundColor: tool.color,
             borderRadius: 3,
-            marginRight: 40,
+            marginRight: 35,
             boxShadow: `0 0 30px ${tool.color}60, 0 0 60px ${tool.color}30`,
           }}
         />
 
         {/* Rank number */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "baseline",
-          }}
-        >
+        <div style={{ display: "flex", alignItems: "baseline" }}>
           <span
             style={{
-              fontSize: 200,
+              fontSize: 180,
               fontWeight: 900,
               color: tool.color,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
               lineHeight: 1,
               textShadow: `0 0 40px ${tool.color}40`,
             }}
@@ -123,11 +150,10 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           </span>
           <span
             style={{
-              fontSize: 40,
+              fontSize: 36,
               fontWeight: 700,
               color: `${tool.color}88`,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
               marginLeft: 4,
             }}
           >
@@ -141,8 +167,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: 16,
-          maxWidth: 700,
+          gap: 12,
+          maxWidth: 750,
         }}
       >
         {/* Tool name */}
@@ -150,7 +176,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           text={tool.name}
           delay={nameDelay}
           staggerDelay={2}
-          fontSize={88}
+          fontSize={80}
           fontWeight={900}
           color={COLORS.textPrimary}
           letterSpacing={6}
@@ -162,15 +188,15 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           style={{
             transform: `translateX(${taglineX}px)`,
             opacity: taglineOpacity,
+            marginBottom: 8,
           }}
         >
           <span
             style={{
-              fontSize: 32,
+              fontSize: 28,
               fontWeight: 600,
               color: tool.color,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
               letterSpacing: 2,
               textTransform: "uppercase",
             }}
@@ -179,93 +205,123 @@ export const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           </span>
         </div>
 
-        {/* Key point */}
-        <div
-          style={{
-            opacity: keyPointFade.opacity,
-            filter: `blur(${keyPointFade.blur}px)`,
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <div
-            style={{
-              width: 8,
-              height: 8,
-              borderRadius: 4,
-              backgroundColor: tool.color,
-              boxShadow: `0 0 10px ${tool.color}`,
-            }}
-          />
-          <span
-            style={{
-              fontSize: 28,
-              fontWeight: 400,
-              color: COLORS.textSecondary,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-              letterSpacing: 1,
-            }}
-          >
-            {tool.keyPoint}
-          </span>
+        {/* Pros list */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 8 }}>
+          {tool.pros.map((pro, i) => {
+            const anim = prosAnimations[i];
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  opacity: anim.opacity,
+                  transform: `translateX(${anim.x}px)`,
+                }}
+              >
+                <div
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: tool.color,
+                    boxShadow: `0 0 8px ${tool.color}`,
+                    flexShrink: 0,
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 400,
+                    color: COLORS.textSecondary,
+                    fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  {pro}
+                </span>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Rating bar */}
+        <RatingBar
+          rating={tool.rating}
+          color={tool.color}
+          delay={ratingDelay}
+        />
 
         {/* Author quote */}
         <div
           style={{
             opacity: quoteFade.opacity * quoteSpring,
             filter: `blur(${quoteFade.blur}px)`,
-            marginTop: 4,
+            marginTop: 10,
+            paddingLeft: 16,
+            borderLeft: `3px solid ${tool.color}40`,
           }}
         >
           <span
             style={{
-              fontSize: 22,
+              fontSize: 18,
               fontWeight: 400,
               fontStyle: "italic",
               color: `${tool.color}cc`,
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-              letterSpacing: 0.5,
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              letterSpacing: 0.3,
             }}
           >
-            {tool.quote}
+            "{tool.quote}"
           </span>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: COLORS.textMuted,
+              fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+              letterSpacing: 2,
+              textTransform: "uppercase",
+              marginTop: 4,
+            }}
+          >
+            \u2014 {tool.quoteAuthor}
+          </div>
         </div>
 
-        {/* Icon placeholder - glowing circle */}
+        {/* Verdict */}
         <div
           style={{
-            position: "absolute",
-            right: 180,
-            top: "50%",
-            transform: `translateY(-50%) scale(${iconScale})`,
-            opacity: iconOpacity * 0.15,
+            opacity: verdictOpacity * verdictFade.opacity,
+            filter: `blur(${verdictFade.blur}px)`,
+            transform: `translateX(${verdictX}px)`,
+            marginTop: 6,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
           }}
         >
           <div
             style={{
-              width: 200,
-              height: 200,
-              borderRadius: "50%",
-              border: `2px solid ${tool.color}40`,
-              background: `radial-gradient(circle, ${tool.color}10 0%, transparent 70%)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              padding: "6px 14px",
+              borderRadius: 6,
+              backgroundColor: `${tool.color}18`,
+              border: `1px solid ${tool.color}30`,
             }}
           >
-            <div
+            <span
               style={{
-                width: 80,
-                height: 80,
-                borderRadius: "50%",
-                backgroundColor: `${tool.color}15`,
-                border: `1px solid ${tool.color}30`,
+                fontSize: 15,
+                fontWeight: 700,
+                color: tool.color,
+                fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+                letterSpacing: 1,
+                textTransform: "uppercase",
               }}
-            />
+            >
+              {tool.verdict}
+            </span>
           </div>
         </div>
       </div>
