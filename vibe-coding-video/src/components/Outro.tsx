@@ -161,25 +161,25 @@ export const Outro: React.FC = () => {
         Ship your first app this week
       </div>
 
-      {/* Logo placeholder area */}
+      {/* Source attribution */}
       <div
         style={{
           position: "absolute",
           bottom: 60,
-          opacity: interpolate(frame, [60, 80], [0, 0.4], {
+          opacity: interpolate(frame, [60, 80], [0, 0.5], {
             extrapolateLeft: "clamp",
             extrapolateRight: "clamp",
           }),
-          fontSize: 14,
-          fontWeight: 600,
+          fontSize: 16,
+          fontWeight: 500,
           color: COLORS.textMuted,
           fontFamily:
             "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
-          letterSpacing: 4,
+          letterSpacing: 3,
           textTransform: "uppercase",
         }}
       >
-        YOUR LOGO HERE
+        Source: r/SideProject
       </div>
 
       {/* Fade to black overlay */}

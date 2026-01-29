@@ -35,6 +35,7 @@ export interface ToolData {
   name: string;
   tagline: string;
   keyPoint: string;
+  quote: string;
   color: string;
 }
 
@@ -43,14 +44,16 @@ export const TOOLS: ToolData[] = [
     rank: 1,
     name: "VIBECODE",
     tagline: "Mobile-First Winner",
-    keyPoint: "Describe \u2192 Test \u2192 Ship",
+    keyPoint: "Describe \u2192 Test \u2192 Ship to App Store",
+    quote: "\u201cI\u2019d send Vibecode first.\u201d",
     color: COLORS.vibecode,
   },
   {
     rank: 2,
     name: "RORK",
     tagline: "Own Your Code",
-    keyPoint: "React Native + GitHub",
+    keyPoint: "React Native + GitHub Export",
+    quote: "\u201cPrototype in Rork \u2192 refine in Cursor\u201d",
     color: COLORS.rork,
   },
   {
@@ -58,13 +61,15 @@ export const TOOLS: ToolData[] = [
     name: "REPLIT",
     tagline: "Cloud Playground",
     keyPoint: "Learn & Prototype Fast",
+    quote: "\u201cFun for experiments \u2014 not first choice for mobile\u201d",
     color: COLORS.replit,
   },
   {
     rank: 4,
     name: "CURSOR",
     tagline: "Pro\u2019s Workbench",
-    keyPoint: "AI-Powered IDE",
+    keyPoint: "AI-Powered IDE \u00b7 Multi-Model",
+    quote: "\u201cExport from Vibecode \u2192 polish in Cursor\u201d",
     color: COLORS.cursor,
   },
   {
@@ -72,6 +77,7 @@ export const TOOLS: ToolData[] = [
     name: "ROCKET",
     tagline: "One to Watch",
     keyPoint: "Figma \u2192 Full App",
+    quote: "\u201cPromising, but not production-ready yet\u201d",
     color: COLORS.rocket,
   },
 ];
