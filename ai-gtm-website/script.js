@@ -178,25 +178,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // =============================================
-    // 6. INTAKE FORM — NOTION DATABASE INTEGRATION
+    // 6. CONTACT FORM HANDLER
     // =============================================
-    //
-    // HOW TO CONNECT TO YOUR NOTION DATABASE:
-    //
-    // Option A (Recommended): Use Make.com (free tier) or Zapier
-    //   1. Create a Notion integration at https://www.notion.so/my-integrations
-    //   2. Share your Notion database with the integration
-    //   3. Create a Make.com scenario: Webhook → Notion "Create Database Item"
-    //   4. Copy your Make.com webhook URL below
-    //
-    // Option B: Use a Notion proxy/middleware (e.g., Notion API Worker on Cloudflare)
-    //   This avoids exposing your Notion API key on the client side.
-    //
-    // Replace this URL with your actual webhook endpoint:
-    var WEBHOOK_URL = "";
-    // Example: "https://hook.us1.make.com/your-webhook-id"
-    // Example: "https://your-worker.your-subdomain.workers.dev/notion"
-
     var intakeForm = document.getElementById("intake-form");
     var submitBtn = document.getElementById("submit-btn");
     var formSuccess = document.getElementById("form-success");
@@ -209,55 +192,38 @@ document.addEventListener("DOMContentLoaded", function () {
             var btnLoading = submitBtn.querySelector(".btn-loading");
             var btnArrow = submitBtn.querySelector(".btn-arrow");
 
-            // Gather form data
-            var formData = {
-                fullName: document.getElementById("fullName").value,
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value || "",
-                company: document.getElementById("company").value,
-                role: document.getElementById("role").value || "",
-                companySize: document.getElementById("companySize").value || "",
-                service: document.getElementById("service").value || "",
-                message: document.getElementById("message").value,
-                submittedAt: new Date().toISOString(),
-            };
-
             // Show loading state
             btnText.style.display = "none";
             btnArrow.style.display = "none";
             btnLoading.style.display = "inline";
             submitBtn.disabled = true;
 
-            if (WEBHOOK_URL) {
-                // Send to webhook (Make.com / Zapier / custom endpoint)
-                fetch(WEBHOOK_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData),
-                })
-                    .then(function () {
-                        showSuccess();
-                    })
-                    .catch(function () {
-                        // Still show success — webhook may not return a clean response
-                        showSuccess();
-                    });
-            } else {
-                // No webhook configured — log data and show success
-                console.log("Form submitted (no webhook configured). Data:", formData);
-                console.log(
-                    "To connect to Notion, set the WEBHOOK_URL variable in script.js"
-                );
-                // Simulate a brief delay
-                setTimeout(function () {
-                    showSuccess();
-                }, 800);
-            }
+            // Compose mailto link with form data
+            var name = document.getElementById("fullName").value;
+            var email = document.getElementById("email").value;
+            var company = document.getElementById("company").value;
+            var role = document.getElementById("role").value || "N/A";
+            var size = document.getElementById("companySize").value || "N/A";
+            var service = document.getElementById("service").value || "N/A";
+            var message = document.getElementById("message").value;
 
-            function showSuccess() {
+            var subject = encodeURIComponent("Strategy Call Request from " + name + " — " + company);
+            var body = encodeURIComponent(
+                "Name: " + name + "\n" +
+                "Email: " + email + "\n" +
+                "Company: " + company + "\n" +
+                "Role: " + role + "\n" +
+                "Company Size: " + size + "\n" +
+                "Service Interest: " + service + "\n\n" +
+                "Message:\n" + message
+            );
+
+            window.location.href = "mailto:hello@nexusai.com?subject=" + subject + "&body=" + body;
+
+            setTimeout(function () {
                 intakeForm.style.display = "none";
                 formSuccess.style.display = "block";
-            }
+            }, 500);
         });
     }
 });
