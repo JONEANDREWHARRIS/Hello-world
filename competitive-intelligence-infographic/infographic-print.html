@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Competitive Intelligence System - Infographic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, #0f0527 0%, #1a0a3e 50%, #0f0527 100%);
+            color: white;
+            min-height: 100vh;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            padding: 15mm;
+            background: linear-gradient(180deg, #0f0527 0%, #1a0a3e 50%, #0f0527 100%);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 8mm;
+            padding-bottom: 6mm;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.25);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            padding: 4px 16px;
+            border-radius: 50px;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #a5b4fc;
+            margin-bottom: 4mm;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3mm;
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: 11px;
+            color: #94a3b8;
+            max-width: 450px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 6mm 0;
+        }
+
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .tech-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 10px;
+            color: white;
+        }
+
+        .tech-icon.make { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .tech-icon.apify { background: linear-gradient(135deg, #00c7b7, #00a99d); }
+        .tech-icon.gemini { background: linear-gradient(135deg, #4285f4, #34a853); }
+        .tech-icon.sheets { background: linear-gradient(135deg, #0f9d58, #34a853); }
+        .tech-icon.creatify { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+        .tech-item span {
+            font-weight: 600;
+            font-size: 10px;
+            color: #e2e8f0;
+        }
+
+        /* Flow Section */
+        .flow-section {
+            margin: 6mm 0;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4mm;
+            color: white;
+        }
+
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .flow-node {
+            text-align: center;
+            flex: 1;
+        }
+
+        .flow-icon {
+            width: 42px;
+            height: 42px;
+            margin: 0 auto 6px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .flow-icon.trigger { background: linear-gradient(135deg, #0f9d58, #34a853); }
+        .flow-icon.scrape { background: linear-gradient(135deg, #00c7b7, #00a99d); }
+        .flow-icon.analyze { background: linear-gradient(135deg, #4285f4, #8b5cf6); }
+        .flow-icon.log { background: linear-gradient(135deg, #f4b400, #f97316); }
+        .flow-icon.generate { background: linear-gradient(135deg, #ec4899, #f472b6); }
+        .flow-icon.save { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+
+        .flow-label {
+            font-size: 8px;
+            font-weight: 600;
+            color: #e2e8f0;
+            line-height: 1.3;
+        }
+
+        .flow-arrow {
+            color: #6366f1;
+            font-size: 16px;
+            opacity: 0.6;
+            padding: 0 4px;
+        }
+
+        /* Pipeline Grid */
+        .pipeline-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 6mm 0;
+        }
+
+        .pipeline-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .pipeline-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+            margin: 0 auto 6px;
+            color: white;
+        }
+
+        .pipeline-number.n1 { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .pipeline-number.n2 { background: linear-gradient(135deg, #00c7b7, #00a99d); }
+        .pipeline-number.n3 { background: linear-gradient(135deg, #4285f4, #34a853); }
+        .pipeline-number.n4 { background: linear-gradient(135deg, #f4b400, #f97316); }
+        .pipeline-number.n5 { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+        .pipeline-card h3 {
+            font-size: 10px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .pipeline-card p {
+            font-size: 8px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        .pipeline-details {
+            margin-top: 6px;
+            text-align: left;
+        }
+
+        .pipeline-detail {
+            font-size: 7px;
+            color: #a5b4fc;
+            padding: 2px 0;
+            border-left: 2px solid #6366f1;
+            padding-left: 6px;
+            margin: 2px 0;
+        }
+
+        /* Framework Section */
+        .framework-section {
+            margin: 6mm 0;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 4mm;
+        }
+
+        .framework-card {
+            text-align: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .framework-icon {
+            width: 36px;
+            height: 36px;
+            margin: 0 auto 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .framework-icon.changed { background: linear-gradient(135deg, #6366f1, #ec4899); }
+        .framework-icon.matters { background: linear-gradient(135deg, #14b8a6, #6366f1); }
+        .framework-icon.action { background: linear-gradient(135deg, #ec4899, #f97316); }
+
+        .framework-card h3 {
+            font-size: 11px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .framework-card p {
+            font-size: 8px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        /* Case Study */
+        .case-study {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 12px;
+            margin: 6mm 0;
+        }
+
+        .case-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .case-content h3 {
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 6px;
+        }
+
+        .case-content p {
+            font-size: 9px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-list li {
+            font-size: 8px;
+            color: #e2e8f0;
+            padding: 3px 0;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .insight-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #14b8a6;
+            font-weight: 700;
+        }
+
+        .case-visual {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metric-label {
+            font-size: 7px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        /* Vispring Section */
+        .vispring-section {
+            margin: 6mm 0;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .vispring-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 4mm;
+        }
+
+        .vispring-card {
+            text-align: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .vispring-card h4 {
+            font-size: 9px;
+            font-weight: 700;
+            color: #a5b4fc;
+            margin-bottom: 4px;
+        }
+
+        .vispring-card p {
+            font-size: 8px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        .competitor-badges {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 4mm;
+        }
+
+        .competitor-badge {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.4);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #a5b4fc;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 6mm;
+            padding-top: 4mm;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-tagline {
+            font-size: 11px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 3px;
+        }
+
+        .footer p {
+            font-size: 8px;
+            color: #64748b;
+        }
+
+        /* Print specific */
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .page {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- Header -->
+        <header class="header">
+            <div class="badge">Automated Intelligence System</div>
+            <h1>Competitor Content In → Actionable Creative Out</h1>
+            <p>A systematic Make.com pipeline that scrapes competitor Instagram Reels, analyzes content with AI, and auto-generates counter-positioned UGC ads — all from a single spreadsheet input.</p>
+        </header>
+
+        <!-- Tech Stack -->
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="tech-icon make">M</div>
+                <span>Make.com</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon apify">A</div>
+                <span>Apify</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon gemini">G</div>
+                <span>Gemini AI</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon sheets">S</div>
+                <span>Google Sheets</span>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon creatify">C</div>
+                <span>Creatify.ai</span>
+            </div>
+        </div>
+
+        <!-- Flow Section -->
+        <section class="flow-section">
+            <h2 class="section-title">Automation Flow</h2>
+            <div class="flow-container">
+                <div class="flow-node">
+                    <div class="flow-icon trigger">📊</div>
+                    <div class="flow-label">Spreadsheet<br>Trigger</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-icon scrape">🔍</div>
+                    <div class="flow-label">Scrape<br>Instagram</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-icon analyze">🧠</div>
+                    <div class="flow-label">AI<br>Analysis</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-icon log">📝</div>
+                    <div class="flow-label">Log<br>Insights</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-icon generate">🎬</div>
+                    <div class="flow-label">Generate<br>UGC Ads</div>
+                </div>
+                <div class="flow-arrow">→</div>
+                <div class="flow-node">
+                    <div class="flow-icon save">💾</div>
+                    <div class="flow-label">Save to<br>Drive</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pipeline Grid -->
+        <section>
+            <h2 class="section-title">Pipeline Breakdown</h2>
+            <div class="pipeline-grid">
+                <div class="pipeline-card">
+                    <div class="pipeline-number n1">1</div>
+                    <h3>📊 Trigger</h3>
+                    <p>Google Sheets webhook initiates automation</p>
+                    <div class="pipeline-details">
+                        <div class="pipeline-detail">Competitor username input</div>
+                        <div class="pipeline-detail">Webhook on cell update</div>
+                    </div>
+                </div>
+                <div class="pipeline-card">
+                    <div class="pipeline-number n2">2</div>
+                    <h3>🔍 Scrape</h3>
+                    <p>Apify extracts Instagram Reels data</p>
+                    <div class="pipeline-details">
+                        <div class="pipeline-detail">Video URLs & captions</div>
+                        <div class="pipeline-detail">Likes, views, hashtags</div>
+                    </div>
+                </div>
+                <div class="pipeline-card">
+                    <div class="pipeline-number n3">3</div>
+                    <h3>🧠 Analyze</h3>
+                    <p>Gemini AI extracts insights</p>
+                    <div class="pipeline-details">
+                        <div class="pipeline-detail">Hook extraction</div>
+                        <div class="pipeline-detail">Messaging angles</div>
+                    </div>
+                </div>
+                <div class="pipeline-card">
+                    <div class="pipeline-number n4">4</div>
+                    <h3>📝 Log</h3>
+                    <p>Structured data to Sheets</p>
+                    <div class="pipeline-details">
+                        <div class="pipeline-detail">Engagement metrics</div>
+                        <div class="pipeline-detail">AI recommendations</div>
+                    </div>
+                </div>
+                <div class="pipeline-card">
+                    <div class="pipeline-number n5">5</div>
+                    <h3>🎬 Generate</h3>
+                    <p>Creatify.ai creates UGC ads</p>
+                    <div class="pipeline-details">
+                        <div class="pipeline-detail">Counter-positioned scripts</div>
+                        <div class="pipeline-detail">Auto-upload to Drive</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Framework Section -->
+        <section class="framework-section">
+            <h2 class="section-title">Strategic Framework</h2>
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <div class="framework-icon changed">📋</div>
+                    <h3>What Changed?</h3>
+                    <p>Evidence-based documentation with scraped data, screenshots, and engagement metrics from competitor content.</p>
+                </div>
+                <div class="framework-card">
+                    <div class="framework-icon matters">💡</div>
+                    <h3>Why It Matters</h3>
+                    <p>Strategic implications for your specific market position and competitive differentiation opportunities.</p>
+                </div>
+                <div class="framework-card">
+                    <div class="framework-icon action">🎯</div>
+                    <h3>What We Do</h3>
+                    <p>Prioritized actions ranked by impact — from content angles to sales-floor talking points.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Case Study -->
+        <section class="case-study">
+            <div class="case-content">
+                <h3>🏠 Real Estate Case Study</h3>
+                <p>Analyzed competitor video content and discovered they focused on property features while ignoring emotional storytelling.</p>
+                <ul class="insight-list">
+                    <li>Identified high-performing hooks from competitor Reels</li>
+                    <li>Found untapped lifestyle & trust angles</li>
+                    <li>Generated UGC-style ads with differentiated messaging</li>
+                    <li>Insights shaped creative direction directly — not a separate report</li>
+                </ul>
+            </div>
+            <div class="case-visual">
+                <h4 style="font-size: 10px; color: #e2e8f0; margin-bottom: 8px; text-align: center;">System Capabilities</h4>
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value">5+</div>
+                        <div class="metric-label">Integrations</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">1</div>
+                        <div class="metric-label">Click Trigger</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2x</div>
+                        <div class="metric-label">AI Analysis</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">∞</div>
+                        <div class="metric-label">Scale</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vispring Section -->
+        <section class="vispring-section">
+            <h2 class="section-title">🛏️ Vispring Application Example</h2>
+            <p style="text-align: center; font-size: 9px; color: #94a3b8; margin-bottom: 4mm;">
+                Adapt this system to track luxury mattress competitors weekly — monitoring ads, website changes, and social content.
+            </p>
+            <div class="competitor-badges">
+                <span class="competitor-badge">Hästens</span>
+                <span class="competitor-badge">Savoir</span>
+                <span class="competitor-badge">Eight Sleep</span>
+            </div>
+            <div class="vispring-grid">
+                <div class="vispring-card">
+                    <h4>📊 Monitor</h4>
+                    <p>Ad creatives, website updates, social content, messaging shifts</p>
+                </div>
+                <div class="vispring-card">
+                    <h4>🔍 Analyze</h4>
+                    <p>Market gaps, opportunities, competitive positioning</p>
+                </div>
+                <div class="vispring-card">
+                    <h4>🎯 Deliver</h4>
+                    <p>Sales-floor talking points, content angles, website updates</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-tagline">Research → Analysis → Action</div>
+            <p>Built with Make.com + Apify + Gemini AI + Creatify.ai</p>
+            <p style="margin-top: 2px;">Not manual research — a systematic pipeline.</p>
+        </footer>
+    </div>
+</body>
+</html>
