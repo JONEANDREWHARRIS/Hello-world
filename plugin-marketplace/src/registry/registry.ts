@@ -121,6 +121,40 @@ const BUILT_IN_PLUGINS: PluginRegistryEntry[] = [
     latestVersion: "0.4.0",
     publishedAt: "2025-09-05T00:00:00Z",
   },
+  {
+    metadata: {
+      name: "frontend-design",
+      namespace: "claude-code-plugins",
+      version: "1.2.0",
+      description:
+        "AI-powered frontend design plugin for Claude Code. Generates responsive UI components, layouts, and design systems from natural language descriptions. Supports React, Vue, Svelte, and vanilla HTML/CSS with Tailwind, CSS Modules, and styled-components.",
+      author: "Claude Code Plugins",
+      license: "MIT",
+      homepage: "https://github.com/claude-code-plugins/frontend-design",
+      repository: "https://github.com/claude-code-plugins/frontend-design",
+      keywords: [
+        "frontend",
+        "design",
+        "ui",
+        "components",
+        "react",
+        "tailwind",
+        "css",
+        "responsive",
+        "layout",
+        "design-system",
+        "claude",
+        "ai",
+      ],
+      category: "code-generation",
+      featured: true,
+      downloads: 215800,
+      rating: 4.7,
+    },
+    versions: ["0.5.0", "0.8.0", "1.0.0", "1.1.0", "1.2.0"],
+    latestVersion: "1.2.0",
+    publishedAt: "2026-01-20T00:00:00Z",
+  },
 ];
 
 export class PluginRegistry {
