@@ -1,0 +1,33 @@
+{
+  "name": "claude-plugin-marketplace",
+  "version": "1.0.0",
+  "description": "Plugin marketplace for Claude Code — browse, install, and manage plugins including anthropics/claude-code",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "marketplace": "dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/main.ts",
+    "marketplace": "ts-node src/main.ts",
+    "search": "ts-node src/main.ts search",
+    "install-plugin": "ts-node src/main.ts install",
+    "list-plugins": "ts-node src/main.ts list",
+    "featured": "ts-node src/main.ts featured"
+  },
+  "keywords": [
+    "claude",
+    "plugin",
+    "marketplace",
+    "anthropic",
+    "claude-code"
+  ],
+  "author": "Hello-world",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^22.0.0"
+  }
+}
