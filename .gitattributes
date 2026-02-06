@@ -1,0 +1,11 @@
+# Binary files - mark as binary to prevent line-ending conversion and diff issues
+*.pdf binary
+*.mp4 binary
+*.mp3 binary
+*.wav binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.tar.gz binary
